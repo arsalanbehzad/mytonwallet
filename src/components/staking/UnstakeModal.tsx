@@ -117,7 +117,7 @@ function UnstakeModal({
   const lang = useLang();
   const isOpen = IS_OPEN_STATES.has(state);
 
-  const { gas: networkFee, real: realFee } = getTonStakingFees(stakingState?.type).stake;
+  const { gas: networkFee, real: realFee } = getTonStakingFees(stakingState?.type).unstake;
 
   const nativeToken = useMemo(() => tokens?.find(({ slug }) => slug === TONCOIN.slug), [tokens]);
   const isNativeEnough = nativeToken && nativeToken.amount >= networkFee;

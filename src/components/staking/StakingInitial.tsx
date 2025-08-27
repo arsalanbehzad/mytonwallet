@@ -13,11 +13,11 @@ import {
   CURRENCIES,
   DEFAULT_PRICE_CURRENCY,
   ETHENA_ELIGIBILITY_CHECK_URL,
-  HELP_CENTER_ETHENA_URL,
   JVAULT_URL,
   SHORT_FRACTION_DIGITS,
   TONCOIN,
 } from '../../config';
+import { getHelpCenterUrl } from '../../global/helpers/getHelpCenterUrl';
 import renderText from '../../global/helpers/renderText';
 import {
   selectAccountStakingState,
@@ -192,7 +192,7 @@ function StakingInitial({
   });
 
   const handleHelpCenterClick = useLastCallback(() => {
-    const url = HELP_CENTER_ETHENA_URL[lang.code as never] ?? HELP_CENTER_ETHENA_URL.en;
+    const url = getHelpCenterUrl(lang.code, 'ethenaStaking');
     void openUrl(url, { title: lang('Help Center'), subtitle: getHostnameFromUrl(url) });
   });
 

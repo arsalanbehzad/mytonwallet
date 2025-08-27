@@ -4,6 +4,8 @@ import type { Account, UserToken } from '../global/types';
 import { TRC20_USDT_MAINNET_SLUG, TRX } from '../config';
 import { HOUR } from './dateFormat';
 
+const SCAM_DOMAIN_ADDRESS_REGEX = /^\w{26,}\./;
+
 export function shouldShowSeedPhraseScamWarning(
   account: Account,
   accountTokens: UserToken[],
@@ -26,4 +28,8 @@ export function shouldShowSeedPhraseScamWarning(
   );
 
   return hasTronTokens;
+}
+
+export function shouldShowDomainScamWarning(address: string) {
+  return SCAM_DOMAIN_ADDRESS_REGEX.test(address);
 }

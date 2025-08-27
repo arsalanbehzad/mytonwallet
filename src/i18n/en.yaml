@@ -180,11 +180,11 @@ Paste: Paste
 Insufficient balance: Insufficient balance
 Insufficient Balance: Insufficient Balance
 $seed_phrase_scam_warning: |
-  **Warning!** You have recently imported a wallet that does not have enough funds to cover the fees for token withdrawal.
+  This wallet that does not have enough funds to cover the fees for token withdrawal.
 
-  This resembles a common scam where you're encouraged to deposit your own funds to cover fees.
+  This seems to be a common **SCAM** where you're encouraged to deposit your own funds to cover fees.
 
-  **Do not deposit your own funds, as you may lose them!** Learn more about this and other scams in our %help_center_link%.
+  **Do not deposit** your own funds, as you may lose them! Learn more about this and other scams in our %help_center_link%.
 $help_center_prepositional: Help Center
 Optional: Optional
 $send_token_symbol: Send %1$s
@@ -937,3 +937,11 @@ Telegram Gifts: Telegram Gifts
 Collectibles: Collectibles
 Bluetooth unavailable: Bluetooth unavailable
 $bluetooth_enable_guide: Turn on Bluetooth in the device settings and allow the app to access Bluetooth.
+$domain_like_scam_warning: |
+  The entered address is likely a **SCAM**. This is **NOT** an address of any exchange or your token wallet.
+
+  This is a long **domain** that **scammers** use to convince people they are sending tokens to a known address.
+
+  **Cancel** this transfer and **never** trust strangers. Learn more about this and other scams in our %help_center_link%.
+Allow Suspicious Actions: Allow Suspicious Actions
+$allow_suspicious_actions_description: Allow sending to suspicious addresses and interacting with potentially unsafe contracts.

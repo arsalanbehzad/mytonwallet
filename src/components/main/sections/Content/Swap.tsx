@@ -25,12 +25,12 @@ import styles from './Activity.module.scss';
 
 type OwnProps = {
   ref?: Ref<HTMLElement>;
-  tokensBySlug?: Record<string, ApiSwapAsset>;
+  tokensBySlug: Record<string, ApiSwapAsset> | undefined;
   isLast?: boolean;
   activity: ApiSwapActivity;
   isActive?: boolean;
   appTheme: AppTheme;
-  addressByChain?: Account['addressByChain'];
+  addressByChain: Account['addressByChain'] | undefined;
   isSensitiveDataHidden?: boolean;
   isFuture?: boolean;
   onClick?: (id: string) => void;

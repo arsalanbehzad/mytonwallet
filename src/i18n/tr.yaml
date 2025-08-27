@@ -180,11 +180,11 @@ Paste: Yapıştır
 Insufficient balance: Yetersiz bakiye
 Insufficient Balance: Yetersiz Bakiye
 $seed_phrase_scam_warning: |
-  **Dikkat!** Yakın zamanda, token çekimi için gereken işlem ücretini karşılayacak yeterli bakiyesi olmayan bir cüzdan içe aktardınız.
+  Bu cüzdan, token çekme ücretlerini karşılayacak kadar fon içermiyor.
 
-  Bu durum, ücretleri karşılamak için kendi paranızı yatırmaya yönelten yaygın bir dolandırıcılık türüne benziyor.
+  Bu, ücretleri karşılamak için kendi fonlarınızı yatırmanızın istendiği yaygın bir **DOLANDIRICILIK** gibi görünüyor.
 
-  **Kendi paranızı yatırmayın, aksi halde kaybedebilirsiniz!** Bu ve diğer dolandırıcılık türleri hakkında daha fazla bilgiyi %help_center_link%'de bulabilirsiniz.
+  Kendi fonlarınızı **yatırmayın**, çünkü kaybedebilirsiniz! Bu ve diğer dolandırıcılık yöntemleri hakkında daha fazla bilgi için %help_center_link%'mizi ziyaret edin.
 $help_center_prepositional: Bilgi Tabanımız
 Optional: Opsiyonel
 $send_token_symbol: "%1$s gönder"
@@ -939,3 +939,11 @@ Telegram Gifts: Telegram Hediyeleri
 Collectibles: Koleksiyonlar
 Bluetooth unavailable: Bluetooth kullanılamıyor
 $bluetooth_enable_guide: Cihaz ayarlarında Bluetooth'u açın ve uygulamanın Bluetooth'a erişmesine izin verin.
+$domain_like_scam_warning: |
+  Girilen adres büyük olasılıkla bir **DOLANDIRICILIKTIR**. Bu, herhangi bir borsanın veya token cüzdanınızın adresi **DEĞİLDİR**.
+
+  Bu, dolandırıcıların insanları tokenları bilinen bir adrese gönderdiklerine inandırmak için kullandıkları uzun bir **alandır**.
+
+  Bu transferi **İptal edin** ve yabancılara asla **güvenmeyin**. Bu ve diğer dolandırıcılık yöntemleri hakkında daha fazla bilgi için %help_center_link%'mizi ziyaret edin.
+Allow Suspicious Actions: Şüpheli Eylemlere İzin Ver
+$allow_suspicious_actions_description: Şüpheli adreslere göndermeye ve potansiyel olarak güvenli olmayan kontratlarla etkileşime izin verir.

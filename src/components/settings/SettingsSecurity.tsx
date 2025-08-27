@@ -20,6 +20,7 @@ import {
   PIN_LENGTH,
 } from '../../config';
 import {
+  selectIsAllowSuspiciousActions,
   selectIsBiometricAuthEnabled,
   selectIsMnemonicAccount,
   selectIsMultichainAccount,
@@ -102,6 +103,7 @@ interface StateProps {
   isAppLockEnabled?: boolean;
   autolockValue?: AutolockValueType;
   isAutoConfirmEnabled?: boolean;
+  isAllowSuspiciousActions?: boolean;
   shouldShowBackup: boolean;
   isLoading?: boolean;
   currentAccountId: string;
@@ -121,6 +123,7 @@ function SettingsSecurity({
   isAppLockEnabled,
   autolockValue = DEFAULT_AUTOLOCK_OPTION,
   isAutoConfirmEnabled,
+  isAllowSuspiciousActions,
   isAutoUpdateEnabled,
   currentAccountId,
   onSettingsClose,
@@ -138,6 +141,7 @@ function SettingsSecurity({
     setSettingsState,
     setAppLockValue,
     setIsAutoConfirmEnabled,
+    setIsAllowSuspiciousActions,
     setIsAuthLoading,
     setInMemoryPassword,
   } = getActions();
@@ -318,6 +322,10 @@ function SettingsSecurity({
 
   const handleAutoConfirmToggle = useLastCallback(() => {
     setIsAutoConfirmEnabled({ isEnabled: !isAutoConfirmEnabled });
+  });
+
+  const handleAllowSuspiciousActionsToggle = useLastCallback(() => {
+    setIsAllowSuspiciousActions({ isEnabled: !isAllowSuspiciousActions });
   });
 
   // Biometrics
@@ -522,6 +530,26 @@ function SettingsSecurity({
               </p>
             </>
           )}
+
+          <>
+            <div className={buildClassName(styles.block, styles.settingsBlockWithDescription)}>
+              <div
+                className={buildClassName(styles.item, styles.itemSmall)}
+                onClick={handleAllowSuspiciousActionsToggle}
+              >
+                {lang('Allow Suspicious Actions')}
+
+                <Switcher
+                  className={styles.menuSwitcher}
+                  label={lang('Allow Suspicious Actions')}
+                  checked={isAllowSuspiciousActions}
+                />
+              </div>
+            </div>
+            <p className={styles.blockDescription}>
+              {lang('$allow_suspicious_actions_description')}
+            </p>
+          </>
         </div>
       </div>
     );
@@ -820,6 +848,7 @@ export default memo(withGlobal<OwnProps>((global): StateProps => {
   const isBiometricAuthEnabled = selectIsBiometricAuthEnabled(global);
   const isNativeBiometricAuthEnabled = selectIsNativeBiometricAuthEnabled(global);
   const isPasswordPresent = selectIsPasswordPresent(global);
+  const isAllowSuspiciousActions = selectIsAllowSuspiciousActions(global, global.currentAccountId!);
   const isMultichainAccount = selectIsMultichainAccount(global, global.currentAccountId!);
   const isMnemonicAccount = selectIsMnemonicAccount(global);
 
@@ -832,6 +861,7 @@ export default memo(withGlobal<OwnProps>((global): StateProps => {
     isAppLockEnabled,
     autolockValue,
     isAutoConfirmEnabled,
+    isAllowSuspiciousActions,
     shouldShowBackup: isMnemonicAccount,
     isLoading: global.auth.isLoading,
     currentAccountId: global.currentAccountId!,

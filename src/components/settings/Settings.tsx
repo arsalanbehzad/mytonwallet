@@ -12,7 +12,6 @@ import {
   APP_ENV_MARKER,
   APP_NAME,
   APP_VERSION,
-  HELPCENTER_URL,
   IS_CAPACITOR,
   IS_CORE_WALLET,
   IS_EXTENSION,
@@ -25,6 +24,7 @@ import {
   TELEGRAM_WEB_URL,
   TONCOIN,
 } from '../../config';
+import { getHelpCenterUrl } from '../../global/helpers/getHelpCenterUrl';
 import {
   selectCurrentAccountState,
   selectCurrentAccountTokens,
@@ -647,7 +647,7 @@ function Settings({
                   <i className={buildClassName(styles.iconChevronRight, 'icon-chevron-right')} aria-hidden />
                 </a>
                 <a
-                  href={HELPCENTER_URL[langCode as never] ?? HELPCENTER_URL.en}
+                  href={getHelpCenterUrl(langCode, 'home')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.item}

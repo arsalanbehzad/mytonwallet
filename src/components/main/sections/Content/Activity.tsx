@@ -21,14 +21,14 @@ interface OwnProps {
   isFuture?: boolean;
   withChainIcon?: boolean;
   tokensBySlug: Record<string, ApiTokenWithPrice>;
-  swapTokensBySlug?: Record<string, ApiSwapAsset>;
+  swapTokensBySlug: Record<string, ApiSwapAsset> | undefined;
   appTheme: AppTheme;
-  nftsByAddress?: Record<string, ApiNft>;
+  nftsByAddress: Record<string, ApiNft> | undefined;
   currentAccountId: string;
   stakingStateBySlug: Record<string, ApiStakingState>;
-  savedAddresses?: SavedAddress[];
-  accounts?: Record<string, Account>;
-  baseCurrency?: ApiBaseCurrency;
+  savedAddresses: SavedAddress[] | undefined;
+  accounts: Record<string, Account> | undefined;
+  baseCurrency: ApiBaseCurrency | undefined;
   onClick?: (id: string) => void;
 }
 

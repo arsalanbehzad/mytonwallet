@@ -17,17 +17,17 @@ export class TsUSDeWallet extends JettonWallet {
   }
 
   async getTimeLockData(provider: ContractProvider): Promise<{
-    lockedBalance: bigint;
+    lockedUsdeBalance: bigint;
     unlockTime?: number;
   }> {
     try {
       const stack = (await provider.get('get_timelock_data', [])).stack;
-      const lockedBalance = stack.readBigNumber();
+      const lockedUsdeBalance = stack.readBigNumber();
       const unlockTime = stack.readNumber();
-      return { lockedBalance, unlockTime };
+      return { lockedUsdeBalance, unlockTime };
     } catch (err: any) {
       if (err.message?.includes('exit_code: -13')) {
-        return { lockedBalance: 0n };
+        return { lockedUsdeBalance: 0n };
       } else {
         throw err;
       }

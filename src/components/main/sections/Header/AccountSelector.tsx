@@ -20,12 +20,14 @@ import { getShortCurrencySymbol } from '../../../../util/formatNumber';
 import { vibrate } from '../../../../util/haptics';
 import trapFocus from '../../../../util/trapFocus';
 
+import { useDeviceScreen } from '../../../../hooks/useDeviceScreen';
 import useFlag from '../../../../hooks/useFlag';
 import useLang from '../../../../hooks/useLang';
 import useLastCallback from '../../../../hooks/useLastCallback';
 import useShowTransition from '../../../../hooks/useShowTransition';
 
 import Button from '../../../ui/Button';
+import Portal from '../../../ui/Portal';
 import SensitiveData from '../../../ui/SensitiveData';
 import Transition from '../../../ui/Transition';
 import { calculateFullBalance } from '../Card/helpers/calculateFullBalance';
@@ -79,6 +81,7 @@ function AccountSelector({
   } = getActions();
 
   const lang = useLang();
+  const { isPortrait } = useDeviceScreen();
   const [isOpen, openAccountSelector, closeAccountSelector] = useFlag(false);
   const [isEdit, openEdit, closeEdit] = useFlag(false);
   const { shouldRender: shouldRenderDialog, ref: dialogContainerRef } = useShowTransition({
@@ -259,7 +262,10 @@ function AccountSelector({
     <>
       {renderCurrentAccount()}
 
-      {shouldRenderDialog && renderAccountsSelector()}
+      {shouldRenderDialog && (isPortrait
+        ? <Portal>{renderAccountsSelector()}</Portal>
+        : renderAccountsSelector()
+      )}
 
       <AccountRenameModal
         isOpen={isEdit}

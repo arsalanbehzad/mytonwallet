@@ -57,21 +57,21 @@ import scamImg from '../../../../assets/scam.svg';
 
 type OwnProps = {
   ref?: Ref<HTMLElement>;
-  tokensBySlug?: Record<string, ApiTokenWithPrice>;
+  tokensBySlug: Record<string, ApiTokenWithPrice>;
   transaction: ApiTransactionActivity;
   isLast?: boolean;
   isActive?: boolean;
   withChainIcon?: boolean;
-  annualYield?: number;
-  yieldType?: ApiYieldType;
+  annualYield: number | undefined;
+  yieldType: ApiYieldType | undefined;
   appTheme: AppTheme;
-  savedAddresses?: SavedAddress[];
+  savedAddresses: SavedAddress[] | undefined;
   doesNftExist?: boolean;
   isSensitiveDataHidden?: boolean;
   isFuture?: boolean;
-  accounts?: Record<string, Account>;
+  accounts: Record<string, Account> | undefined;
   currentAccountId: string;
-  baseCurrency?: ApiBaseCurrency;
+  baseCurrency: ApiBaseCurrency | undefined;
   onClick?: (id: string) => void;
 };
 
@@ -126,7 +126,7 @@ function Transaction({
   const isStaking = STAKING_TRANSACTION_TYPES.has(type);
   const isDnsOperation = DNS_TRANSACTION_TYPES.has(type);
 
-  const token = tokensBySlug?.[slug];
+  const token = tokensBySlug[slug];
   const { chain } = token || {};
   const address = isIncoming ? fromAddress : toAddress;
   const localAddressName = useMemo(() => {

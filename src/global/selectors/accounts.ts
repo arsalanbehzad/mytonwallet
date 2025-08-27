@@ -199,6 +199,12 @@ export function selectIsNativeBiometricAuthEnabled(global: GlobalState) {
   return !!authConfig && authConfig.kind === 'native-biometrics';
 }
 
+export function selectIsAllowSuspiciousActions(global: GlobalState, accountId: string) {
+  const accountSettings = selectAccountSettings(global, accountId);
+
+  return accountSettings?.isAllowSuspiciousActions ?? false;
+}
+
 export function selectIsCurrentAccountViewMode(global: GlobalState) {
   const { type } = selectCurrentAccount(global) || {};
 

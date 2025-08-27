@@ -559,6 +559,8 @@ export type ConfigureSocketMessage = BaseSocketMessage & {
   operation: 'configure';
   include_address_book: boolean;
   include_metadata: boolean;
+  /** @default ['latest'] */
+  supported_action_types?: ('v1' | 'v2' | 'latest')[];
 };
 
 export type SubscribeSocketMessage = BaseSocketMessage & {

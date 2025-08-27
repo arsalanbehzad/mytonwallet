@@ -143,7 +143,6 @@ export const NFT_MARKETPLACE_URL = 'https://getgems.io/';
 export const NFT_MARKETPLACE_TITLE = NFT_MARKETPLACE_TITLES.getgems;
 export const GETGEMS_BASE_MAINNET_URL = 'https://getgems.io/';
 export const GETGEMS_BASE_TESTNET_URL = 'https://testnet.getgems.io/';
-export const HELPCENTER_URL = { en: 'https://help.mytonwallet.io/', ru: 'https://help.mytonwallet.io/ru' };
 export const EMPTY_HASH_VALUE = 'NOHASH';
 
 export const IFRAME_WHITELIST = [
@@ -164,7 +163,7 @@ export const PROXY_HOSTS = process.env.PROXY_HOSTS;
 export const TINY_TRANSFER_MAX_COST = 0.01;
 
 export const IMAGE_CACHE_NAME = 'mtw-image';
-export const LANG_CACHE_NAME = 'mtw-lang-225';
+export const LANG_CACHE_NAME = 'mtw-lang-226';
 
 export const LANG_LIST: LangItem[] = [{
   langCode: 'en',
@@ -647,14 +646,24 @@ export const TONCENTER_ACTIONS_VERSION = 'v1';
 
 export const JVAULT_URL = 'https://jvault.xyz';
 
-export const HELP_CENTER_SEED_SCAM_URL = {
-  en: 'https://help.mytonwallet.io/intro/scams/leaked-seed-phrases',
-  ru: 'https://help.mytonwallet.io/ru/baza-znanii/moshennichestvo-i-skamy/slitye-sid-frazy',
-};
-
-export const HELP_CENTER_ETHENA_URL = {
-  en: 'https://help.mytonwallet.io/intro/staking/what-is-usde-how-does-usde-staking-work',
-  ru: 'https://help.mytonwallet.io/ru/baza-znanii/steiking/chto-takoe-usde-kak-rabotaet-steiking-usde',
+export const HELP_CENTER_URL = {
+  home: {
+    en: 'https://help.mytonwallet.io/',
+    ru: 'https://help.mytonwallet.io/ru',
+  },
+  domainScam: {
+    en: 'https://help.mytonwallet.io/intro/scams/.ton-domain-scams',
+    // eslint-disable-next-line @stylistic/max-len
+    ru: 'https://help.mytonwallet.io/ru/baza-znanii/moshennichestvo-i-skamy/moshennichestvo-s-ispolzovaniem-domenov-.ton',
+  },
+  seedScam: {
+    en: 'https://help.mytonwallet.io/intro/scams/leaked-seed-phrases',
+    ru: 'https://help.mytonwallet.io/ru/baza-znanii/moshennichestvo-i-skamy/slitye-sid-frazy',
+  },
+  ethenaStaking: {
+    en: 'https://help.mytonwallet.io/intro/staking/what-is-usde-how-does-usde-staking-work',
+    ru: 'https://help.mytonwallet.io/ru/baza-znanii/steiking/chto-takoe-usde-kak-rabotaet-steiking-usde',
+  },
 };
 
 const ALL_TON_DNS_ZONES = [

@@ -9,7 +9,7 @@ import { callActionInMain, callActionInNative } from '../../../util/multitab';
 import switchTheme from '../../../util/switchTheme';
 import { IS_DELEGATED_BOTTOM_SHEET, IS_DELEGATING_BOTTOM_SHEET } from '../../../util/windowEnvironment';
 import { addActionHandler, setGlobal } from '../..';
-import { resetHardware, updateSettings } from '../../reducers';
+import { resetHardware, updateAccountSettings, updateSettings } from '../../reducers';
 import { selectIsBiometricAuthEnabled } from '../../selectors';
 
 let prevGlobal: GlobalState | undefined;
@@ -65,6 +65,14 @@ addActionHandler('setIsAutoConfirmEnabled', (global, actions, { isEnabled }) => 
       isAutoConfirmEnabled: isEnabled || undefined,
     },
   };
+});
+
+addActionHandler('setIsAllowSuspiciousActions', (global, actions, { isEnabled }) => {
+  const accountId = global.currentAccountId!;
+
+  return updateAccountSettings(global, accountId, {
+    isAllowSuspiciousActions: isEnabled || undefined,
+  });
 });
 
 addActionHandler('setInMemoryPassword', (global, actions, { password, isFinalCall, force }) => {

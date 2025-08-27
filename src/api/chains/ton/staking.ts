@@ -576,11 +576,10 @@ async function buildEthenaState(options: StakingStateOptions): Promise<ApiEthena
   const tonClient = getTonClient(network);
   const tsUsdeWalletAddress = await resolveTokenWalletAddress(network, walletAddress, TON_TSUSDE.tokenAddress);
   const tsUsdeWallet = tonClient.open(TsUSDeWallet.createFromAddress(Address.parse(tsUsdeWalletAddress)));
-  const { lockedBalance, unlockTime } = await tsUsdeWallet.getTimeLockData();
+  const { lockedUsdeBalance, unlockTime } = await tsUsdeWallet.getTimeLockData();
 
   const tokenBalance = balances[TON_TSUSDE.slug] ?? 0n;
   const balance = bigintMultiplyToNumber(tokenBalance, rate);
-  const unstakeRequestAmount = bigintMultiplyToNumber(lockedBalance, rate);
 
   const state: ApiEthenaStakingState = {
     id: 'ethena',
@@ -593,9 +592,8 @@ async function buildEthenaState(options: StakingStateOptions): Promise<ApiEthena
     balance,
     pool: ETHENA_STAKING_VAULT,
     tokenBalance,
-    unstakeRequestAmount,
-    lockedBalance,
-    unlockTime: unlockTime && lockedBalance ? unlockTime * 1000 : undefined,
+    unstakeRequestAmount: lockedUsdeBalance,
+    unlockTime: unlockTime && lockedUsdeBalance ? unlockTime * 1000 : undefined,
     tsUsdeWalletAddress,
   };
 
@@ -683,7 +681,7 @@ export async function submitUnstakeEthenaLocked(
     toAddress: state.tsUsdeWalletAddress,
     amount: TON_GAS.unstakeEthenaLocked,
     data: TsUSDeWallet.transferTimelockedMessage({
-      jettonAmount: state.lockedBalance,
+      jettonAmount: state.unstakeRequestAmount,
       to: Address.parse(TON_TSUSDE.tokenAddress),
       responseAddress: Address.parse(address),
       forwardTonAmount: TON_GAS.unstakeEthenaLockedForward,

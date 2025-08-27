@@ -182,11 +182,11 @@ Paste: Pasta
 Insufficient balance: Niewystarczająca równowaga
 Insufficient Balance: Niewystarczająca równowaga
 $seed_phrase_scam_warning: |
-  **Uwaga!** Niedawno zaimportowałeś portfel, na którym nie ma wystarczających środków do pokrycia opłat za wypłatę tokenów.
+  Ten portfel nie ma wystarczających środków na pokrycie opłat za wypłatę tokenów.
 
-  Jest to podobne do popularnego rodzaju oszustwa, gdzie namawia się Cię do wpłaty własnych środków na pokrycie opłat.
+  To wygląda na typową **OSZUSTWO**, gdzie zachęca się Cię do wpłacenia własnych środków na pokrycie opłat.
 
-  **Nie wpłacaj swoich środków, możesz je stracić!** Dowiedz się więcej o tym i innych rodzajach oszustw w naszej %help_center_link%.
+  **Nie wpłacaj** własnych środków, ponieważ możesz je stracić! Dowiedz się więcej o tym i innych oszustwach w naszym %help_center_link%.
 $help_center_prepositional: Bazie Wiedzy
 Optional: Opcjonalnie
 $send_token_symbol: Wyślij %1$s
@@ -953,3 +953,11 @@ Telegram Gifts: Prezenty Telegram
 Collectibles: Kolekcjonerskie
 Bluetooth unavailable: Bluetooth niedostępne
 $bluetooth_enable_guide: Włącz Bluetooth w ustawieniach urządzenia i zezwól aplikacji na dostęp do Bluetooth.
+$domain_like_scam_warning: |
+  Wprowadzony adres to prawdopodobnie **OSZUSTWO**. To **NIE** jest adres żadnej giełdy ani Twojego portfela tokenów.
+
+  To długa **domena**, której **oszuści** używają, by przekonać ludzi, że wysyłają tokeny na znany adres.
+
+  **Anuluj** ten transfer i **nigdy** nie ufaj nieznajomym. Dowiedz się więcej o tym i innych oszustwach w naszym %help_center_link%.
+Allow Suspicious Actions: Zezwalaj na podejrzane działania
+$allow_suspicious_actions_description: Zezwalaj na wysyłanie do podejrzanych adresów i interakcję z potencjalnie niebezpiecznymi kontraktami.

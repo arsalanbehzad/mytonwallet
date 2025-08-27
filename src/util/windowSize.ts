@@ -122,7 +122,10 @@ function patchSafeAreaProperty() {
 
   // WebKit has issues with this property on page load
   // https://bugs.webkit.org/show_bug.cgi?id=191872
-  setTimeout(toggleSafeAreaClasses, SAFE_AREA_INITIALIZATION_DELAY);
+  setTimeout(() => {
+    toggleSafeAreaClasses();
+    updateSafeAreaValues();
+  }, SAFE_AREA_INITIALIZATION_DELAY);
 }
 
 function getSafeAreaTop() {
@@ -145,4 +148,14 @@ function toggleSafeAreaClasses() {
     documentElement.classList.toggle('with-safe-area-top', !Number.isNaN(safeAreaTop) && safeAreaTop > 0);
     documentElement.classList.toggle('with-safe-area-bottom', !Number.isNaN(safeAreaBottom) && safeAreaBottom > 0);
   });
+}
+
+function updateSafeAreaValues() {
+  const { safeAreaTop, safeAreaBottom } = getWindowSize();
+
+  currentWindowSize = {
+    ...currentWindowSize,
+    safeAreaTop,
+    safeAreaBottom,
+  };
 }

@@ -177,11 +177,11 @@ Paste: 貼上
 Insufficient balance: 餘額不足
 Insufficient Balance: 餘額不足
 $seed_phrase_scam_warning: |
-  **警告！** 您最近匯入了一個錢包，但錢包內餘額不足以支付提取代幣的手續費。
+  該錢包沒有足夠的資金支付代幣提現費用。
 
-  這與一種常見的詐騙手法類似，即誘使您存入自己的資金來支付手續費。
+  這似乎是一種常見的**騙局**，誘使您存入自己的資金來支付費用。
 
-  **請勿存入自己的資金，否則可能遭受損失！** 請在我們的%help_center_link%瞭解更多此類及其他詐騙手法。
+  **不要存入**您自己的資金，否則可能會損失資金！在我們的%help_center_link%中了解有關此騙局和其他騙局的更多信息。
 $help_center_prepositional: 知識庫
 Optional: 選項
 $send_token_symbol: 發送 %1$s
@@ -932,3 +932,11 @@ Telegram Gifts: Telegram 禮物
 Collectibles: 收藏品
 Bluetooth unavailable: 藍牙不可用
 $bluetooth_enable_guide: 請在設備設定中開啟藍牙並允許應用程式存取藍牙。
+$domain_like_scam_warning: |
+  輸入的地址很可能是一個**騙局**。這**不是**任何交易所或您的代幣錢包地址。
+
+  這是一個**騙子**用來讓人們相信他們正在向已知地址發送代幣的長**網域**。
+
+  **取消**此轉賬並且**永遠不要**信任陌生人。在我們的%help_center_link%中了解有關此騙局和其他騙局的更多信息。
+Allow Suspicious Actions: 允許可疑操作
+$allow_suspicious_actions_description: 允許傳送至可疑地址並與潛在不安全的合約交互。

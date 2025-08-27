@@ -1,7 +1,7 @@
 import type { ApiActivity, ApiNetwork } from '../../../types';
 import type { ActionsSocketMessage, AddressBook, AnyAction, ClientSocketMessage, ServerSocketMessage } from './types';
 
-import { TONCENTER_MAINNET_URL, TONCENTER_TESTNET_URL } from '../../../../config';
+import { TONCENTER_ACTIONS_VERSION, TONCENTER_MAINNET_URL, TONCENTER_TESTNET_URL } from '../../../../config';
 import { findDifference } from '../../../../util/iteratees';
 import ReconnectingWebSocket, { type InMessageCallback } from '../../../../util/reconnectingWebsocket';
 import safeExec from '../../../../util/safeExec';
@@ -182,6 +182,7 @@ class ToncenterSocket {
       operation: 'configure',
       include_address_book: true,
       include_metadata: true,
+      supported_action_types: [TONCENTER_ACTIONS_VERSION],
     });
     this.#sendWatchedWalletsToSocket();
 

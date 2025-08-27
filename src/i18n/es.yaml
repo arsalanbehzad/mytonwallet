@@ -179,11 +179,11 @@ Paste: Pegar
 Insufficient balance: Saldo insuficiente
 Insufficient Balance: Saldo insuficiente
 $seed_phrase_scam_warning: |
-  **¡Atención!** Recientemente has importado una billetera que no tiene fondos suficientes para cubrir las comisiones por el retiro de tokens.
+  Esta billetera no tiene fondos suficientes para cubrir las tarifas de retiro de tokens.
 
-  Esto parece un tipo común de estafa donde se te pide depositar fondos propios para cubrir las comisiones.
+  Esto parece ser un **ESTAFA** común donde se te anima a depositar tus propios fondos para cubrir las tarifas.
 
-  **¡No deposites tus propios fondos, podrías perderlos!** Aprende más sobre este y otros tipos de estafas en nuestra %help_center_link%.
+  **No deposites** tus propios fondos, ¡podrías perderlos! Más información sobre esta y otras estafas en nuestro %help_center_link%.
 $help_center_prepositional: Base de conocimientos
 Optional: Opcional
 $send_token_symbol: Enviar %1$s
@@ -940,3 +940,11 @@ Telegram Gifts: Regalos de Telegram
 Collectibles: Coleccionables
 Bluetooth unavailable: Bluetooth no disponible
 $bluetooth_enable_guide: Active Bluetooth en la configuración del dispositivo y permita que la aplicación acceda a Bluetooth.
+$domain_like_scam_warning: |
+  La dirección ingresada probablemente sea una **ESTAFA**. Esta **NO** es una dirección de ningún exchange o de tu monedero de tokens.
+
+  Este es un **dominio** largo que los **estafadores** usan para convencer a las personas de que están enviando tokens a una dirección conocida.
+
+  **Cancela** esta transferencia y **nunca** confíes en extraños. Más información sobre esta y otras estafas en nuestro %help_center_link%.
+Allow Suspicious Actions: Permitir acciones sospechosas
+$allow_suspicious_actions_description: Permitir el envío a direcciones sospechosas y la interacción con contratos potencialmente inseguros.

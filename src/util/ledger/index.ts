@@ -583,7 +583,7 @@ export async function submitLedgerStakingClaimOrUnlock(
       const payload: TonPayloadFormat = {
         type: 'unsafe',
         message: TsUSDeWallet.transferTimelockedMessage({
-          jettonAmount: state.lockedBalance,
+          jettonAmount: state.unstakeRequestAmount,
           to: Address.parse(TON_TSUSDE.tokenAddress),
           responseAddress: Address.parse(fromAddress!),
           forwardTonAmount: TON_GAS.unstakeEthenaLockedForward,

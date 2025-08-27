@@ -2,6 +2,7 @@ import React, { memo, useMemo } from '../../lib/teact/teact';
 import { getActions, withGlobal } from '../../global';
 
 import type {
+  ApiBaseCurrency,
   ApiDapp,
   ApiDappTransfer,
   ApiEmulationResult,
@@ -63,6 +64,7 @@ interface StateProps {
   tokensBySlug: Record<string, ApiTokenWithPrice>;
   swapTokensBySlug?: Record<string, ApiSwapAsset>;
   theme: Theme;
+  baseCurrency?: ApiBaseCurrency;
   nftsByAddress?: Record<string, ApiNft>;
   currentAccountId: string;
   stakingStateBySlug: Record<string, ApiStakingState>;
@@ -96,6 +98,7 @@ function DappTransferInitial({
   tokensBySlug,
   swapTokensBySlug,
   theme,
+  baseCurrency,
   nftsByAddress,
   currentAccountId,
   stakingStateBySlug,
@@ -246,6 +249,7 @@ function DappTransferInitial({
               stakingStateBySlug={stakingStateBySlug}
               savedAddresses={savedAddresses}
               accounts={accounts}
+              baseCurrency={baseCurrency}
             />
           ))}
         </div>
@@ -298,6 +302,7 @@ export default memo(withGlobal<OwnProps>((global): StateProps => {
     tokensBySlug: global.tokenInfo.bySlug,
     swapTokensBySlug: global.swapTokenInfo?.bySlug,
     theme: global.settings.theme,
+    baseCurrency: global.settings.baseCurrency,
     nftsByAddress: accountState?.nfts?.byAddress,
     currentAccountId: accountId,
     stakingStateBySlug: selectAccountStakingStatesBySlug(global, accountId),

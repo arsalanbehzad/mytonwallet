@@ -5,15 +5,18 @@ import { getActions, withGlobal } from '../../global';
 import type { ApiFetchEstimateDieselResult } from '../../api/chains/ton/types';
 import type { ApiBaseCurrency, ApiNft } from '../../api/types';
 import type { Account, SavedAddress, UserToken } from '../../global/types';
+import type { LangFn } from '../../hooks/useLang';
 import type { ExplainedTransferFee } from '../../util/fee/transferFee';
 import type { FeePrecision, FeeTerms } from '../../util/fee/types';
-import { TransferState } from '../../global/types';
+import { ScamWarningType, TransferState } from '../../global/types';
 
-import { DEFAULT_PRICE_CURRENCY, HELP_CENTER_SEED_SCAM_URL, TONCOIN } from '../../config';
+import { DEFAULT_PRICE_CURRENCY, TONCOIN } from '../../config';
+import { getHelpCenterUrl } from '../../global/helpers/getHelpCenterUrl';
 import {
   selectCurrentAccountState,
   selectCurrentAccountTokenBalance,
   selectCurrentAccountTokens,
+  selectIsAllowSuspiciousActions,
   selectIsHardwareAccount,
   selectIsMultichainAccount,
   selectNetworkAccounts,
@@ -22,7 +25,9 @@ import buildClassName from '../../util/buildClassName';
 import { SECOND } from '../../util/dateFormat';
 import { stopEvent } from '../../util/domEvents';
 import {
-  explainApiTransferFee, getMaxTransferAmount, isBalanceSufficientForTransfer,
+  explainApiTransferFee,
+  getMaxTransferAmount,
+  isBalanceSufficientForTransfer,
 } from '../../util/fee/transferFee';
 import { vibrate } from '../../util/haptics';
 import { isValidAddressOrDomain } from '../../util/isValidAddressOrDomain';
@@ -30,6 +35,7 @@ import { debounce } from '../../util/schedulers';
 import { trimStringByMaxBytes } from '../../util/text';
 import { getChainBySlug, getIsServiceToken, getNativeToken } from '../../util/tokens';
 
+import useCurrentOrPrev from '../../hooks/useCurrentOrPrev';
 import useFlag from '../../hooks/useFlag';
 import useInterval from '../../hooks/useInterval';
 import useLang from '../../hooks/useLang';
@@ -83,7 +89,8 @@ interface StateProps {
   isDieselAuthorizationStarted?: boolean;
   isMultichainAccount: boolean;
   isSensitiveDataHidden?: true;
-  shouldShowScamWarning?: true;
+  scamWarningType?: ScamWarningType;
+  isAllowSuspiciousActions: boolean;
 }
 
 const COMMENT_MAX_SIZE_BYTES = 5000;
@@ -121,7 +128,8 @@ function TransferInitial({
   isDieselAuthorizationStarted,
   isMultichainAccount,
   isSensitiveDataHidden,
-  shouldShowScamWarning,
+  scamWarningType,
+  isAllowSuspiciousActions,
 }: OwnProps & StateProps) {
   const {
     submitTransferInitial,
@@ -152,15 +160,12 @@ function TransferInitial({
   const transferToken = useMemo(() => tokens?.find((token) => token.slug === tokenSlug), [tokenSlug, tokens]);
   const { amount: balance, symbol, chain } = transferToken || {};
 
+  const renderedScamWarningType = useCurrentOrPrev(scamWarningType, true);
   const isDisabledDebounce = useRef<boolean>(false);
   const isToncoin = tokenSlug === TONCOIN.slug;
   const isAddressValid = chain ? isValidAddressOrDomain(toAddress, chain) : undefined;
   const doesSupportComment = chain === 'ton';
   const transitionKey = useTransitionActiveKey(nfts?.length ? nfts : [tokenSlug]);
-  const helpCenterLink = (
-    HELP_CENTER_SEED_SCAM_URL[lang.code as keyof typeof HELP_CENTER_SEED_SCAM_URL]
-    || HELP_CENTER_SEED_SCAM_URL.en
-  );
 
   const handleAddressInput = useLastCallback((newToAddress?: string, isValueReplaced?: boolean) => {
     // If value is replaced, callbacks must be executed immediately, without debounce
@@ -273,15 +278,29 @@ function TransferInitial({
     changeTransferToken({ tokenSlug: slug });
   });
 
+  function clearForm() {
+    handleAddressInput('');
+    checkTransferAddress({ address: '' });
+    setTransferAmount({ amount: undefined });
+    setTransferComment({ comment: undefined });
+    setTransferShouldEncrypt({ shouldEncrypt: false });
+  }
+
   const handleClear = useLastCallback(() => {
     if (isStatic) {
       cancelTransfer({ shouldReset: true });
     } else {
-      handleAddressInput('');
-      checkTransferAddress({ address: '' });
-      setTransferAmount({ amount: undefined });
-      setTransferComment({ comment: undefined });
-      setTransferShouldEncrypt({ shouldEncrypt: false });
+      clearForm();
+    }
+  });
+
+  const handleScamWarningModalClose = useLastCallback(() => {
+    dismissTransferScamWarning();
+
+    if (isStatic) {
+      clearForm();
+    } else {
+      cancelTransfer({ shouldReset: true });
     }
   });
 
@@ -332,8 +351,10 @@ function TransferInitial({
     && !(isNftTransfer && !nfts?.length),
   );
 
-  const handleSubmit = useLastCallback((e: React.FormEvent | React.UIEvent) => {
-    stopEvent(e);
+  const handleSubmit = useLastCallback((e?: React.FormEvent | React.UIEvent) => {
+    if (e) stopEvent(e);
+
+    if (scamWarningType) return;
 
     if (isDieselNotAuthorized) {
       authorizeDiesel();
@@ -533,23 +554,31 @@ function TransferInitial({
         token={transferToken}
       />
       <Modal
-        isOpen={shouldShowScamWarning}
+        isOpen={Boolean(scamWarningType)}
         isCompact
         title={lang('Warning!')}
         noBackdropClose
         onClose={dismissTransferScamWarning}
       >
         <div>
-          {lang('$seed_phrase_scam_warning', {
-            help_center_link: (
-              <a href={helpCenterLink} target="_blank" rel="noreferrer">
-                <b>{lang('$help_center_prepositional')}</b>
-              </a>
-            ),
-          })}
+          {getScamWarning(lang, renderedScamWarningType)}
         </div>
         <div className={modalStyles.footerButtons}>
-          <Button onClick={dismissTransferScamWarning}>{lang('OK')}</Button>
+          {isAllowSuspiciousActions ? (
+            <>
+              <Button className={modalStyles.fluidButton} onClick={handleScamWarningModalClose}>{lang('Exit')}</Button>
+              <Button
+                isPrimary
+                isDestructive
+                className={modalStyles.button}
+                onClick={dismissTransferScamWarning}
+              >
+                {lang('Continue')}
+              </Button>
+            </>
+          ) : (
+            <Button onClick={handleScamWarningModalClose}>{lang('Exit')}</Button>
+          )}
         </div>
       </Modal>
     </>
@@ -576,7 +605,7 @@ export default memo(
         isMemoRequired,
         diesel,
         stateInit,
-        shouldShowScamWarning,
+        scamWarningType,
       } = global.currentTransfer;
 
       const isLedger = selectIsHardwareAccount(global);
@@ -611,7 +640,8 @@ export default memo(
         isDieselAuthorizationStarted: accountState?.isDieselAuthorizationStarted,
         isMultichainAccount: selectIsMultichainAccount(global, global.currentAccountId!),
         isSensitiveDataHidden,
-        shouldShowScamWarning,
+        scamWarningType,
+        isAllowSuspiciousActions: selectIsAllowSuspiciousActions(global, global.currentAccountId!),
       };
     },
     (global, _, stickToFirst) => stickToFirst(global.currentAccountId),
@@ -629,4 +659,22 @@ function isSelectableToken(token: UserToken, selectedTokenSlug: string) {
   return token.type !== 'lp_token'
     || (token.amount > 0 && !token.isDisabled)
     || token.slug === selectedTokenSlug;
+}
+
+function getScamWarning(lang: LangFn, scamWarning: ScamWarningType | undefined) {
+  if (!scamWarning) return undefined;
+
+  return lang(scamWarning === ScamWarningType.DomainLike
+    ? '$domain_like_scam_warning'
+    : '$seed_phrase_scam_warning', {
+    help_center_link: (
+      <a
+        href={getHelpCenterUrl(lang.code, scamWarning === ScamWarningType.DomainLike ? 'domainScam' : 'seedScam')}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <b>{lang('$help_center_prepositional')}</b>
+      </a>
+    ),
+  });
 }

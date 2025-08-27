@@ -170,6 +170,11 @@ export enum TransferState {
   Complete,
 }
 
+export const enum ScamWarningType {
+  SeedPhrase = 1,
+  DomainLike,
+}
+
 export enum SignDataState {
   None,
   Initial,
@@ -469,6 +474,7 @@ export interface AccountSettings {
   cardBackgroundNft?: ApiNft;
   accentColorNft?: ApiNft;
   accentColorIndex?: number;
+  isAllowSuspiciousActions?: boolean;
 }
 
 export interface SavedAddress {
@@ -553,8 +559,9 @@ export type GlobalState = {
     diesel?: ApiFetchEstimateDieselResult;
     withDiesel?: boolean;
     isGaslessWithStars?: boolean;
-    // This field is used to display a scam warning in the UI only because `Dialogs` are not displayed in iOS due to NBS specifics
-    shouldShowScamWarning?: true;
+    // This field is used to display a scam warning in the UI only because `Dialogs` are not displayed in iOS
+    // due to NBS specifics. Undefined means closed.
+    scamWarningType?: ScamWarningType;
   };
 
   currentSwap: {
@@ -929,6 +936,7 @@ export interface ActionPayloads {
   submitTransferHardware: undefined;
   clearTransferError: undefined;
   cancelTransfer: { shouldReset?: boolean } | undefined;
+  showTransferScamWarning: { type: ScamWarningType };
   dismissTransferScamWarning: undefined;
   showDialog: DialogType;
   dismissDialog: undefined;
@@ -1078,6 +1086,7 @@ export interface ActionPayloads {
   setAppLockValue: { value?: AutolockValueType; isEnabled: boolean };
   setIsManualLockActive: { isActive?: boolean; shouldHideBiometrics?: boolean };
   setIsAutoConfirmEnabled: { isEnabled: boolean };
+  setIsAllowSuspiciousActions: { isEnabled: boolean };
   setInMemoryPassword: { password?: string; isFinalCall?: boolean; force?: boolean };
   openSettingsHardwareWallet: undefined;
   apiUpdateWalletVersions: ApiUpdateWalletVersions;

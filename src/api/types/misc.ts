@@ -196,7 +196,6 @@ export type ApiEthenaStakingState = BaseStakingState & {
   type: 'ethena';
   tokenBalance: bigint;
   tsUsdeWalletAddress: string;
-  lockedBalance: bigint;
   unstakeRequestAmount: bigint;
   unlockTime?: number;
   annualYieldStandard?: number;

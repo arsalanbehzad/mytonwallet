@@ -110,6 +110,11 @@ addActionHandler('dismissTransferScamWarning', (global) => {
     callActionInNative('dismissTransferScamWarning');
   }
 
-  global = updateCurrentTransfer(global, { shouldShowScamWarning: undefined });
+  global = updateCurrentTransfer(global, { scamWarningType: undefined });
+  setGlobal(global);
+});
+
+addActionHandler('showTransferScamWarning', (global, actions, { type }) => {
+  global = updateCurrentTransfer(global, { scamWarningType: type });
   setGlobal(global);
 });

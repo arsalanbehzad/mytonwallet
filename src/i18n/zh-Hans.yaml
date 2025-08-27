@@ -177,11 +177,11 @@ Paste: 粘贴
 Insufficient balance: 余额不足
 Insufficient Balance: 余额不足
 $seed_phrase_scam_warning: |
-  **警告！** 您最近导入了一个钱包，但钱包中余额不足以支付提取代币的手续费。
+  该钱包没有足够的资金支付代币提现费用。
 
-  这类似一种常见的诈骗方式，诱使您用自己的资金支付手续费。
+  这似乎是一种常见的**骗局**，诱使您存入自己的资金来支付费用。
 
-  **请勿存入您自己的资金，否则可能遭受损失！** 在我们的%help_center_link%了解更多此类及其他诈骗方式。
+  **不要存入**您自己的资金，否则可能会损失资金！在我们的%help_center_link%中了解有关此骗局和其他骗局的更多信息。
 $help_center_prepositional: 知识库
 Optional: 选项
 $send_token_symbol: 发送 %1$s
@@ -932,3 +932,11 @@ Telegram Gifts: Telegram 礼物
 Collectibles: 收藏品
 Bluetooth unavailable: 蓝牙不可用
 $bluetooth_enable_guide: 请在设备设置中开启蓝牙并允许应用访问蓝牙。
+$domain_like_scam_warning: |
+  输入的地址很可能是一个**骗局**。这**不是**任何交易所或您的代币钱包地址。
+
+  这是一个**骗子**用来让人们相信他们正在向已知地址发送代币的长**域名**。
+
+  **取消**此转账并且**永远不要**信任陌生人。在我们的%help_center_link%中了解有关此骗局和其他骗局的更多信息。
+Allow Suspicious Actions: 允许可疑操作
+$allow_suspicious_actions_description: 允许发送至可疑地址并与潜在不安全的合约交互。

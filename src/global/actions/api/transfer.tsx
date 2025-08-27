@@ -1,7 +1,7 @@
 import type { ApiCheckTransactionDraftResult, ApiSubmitMultiTransferResult } from '../../../api/chains/ton/types';
 import type { ApiSubmitTransferOptions, ApiSubmitTransferResult } from '../../../api/methods/types';
 import { ApiTransactionDraftError, type ApiTransactionError, type ApiTransferToSign } from '../../../api/types';
-import { TransferState } from '../../types';
+import { ScamWarningType, TransferState } from '../../types';
 
 import { NFT_BATCH_SIZE } from '../../../config';
 import { bigintDivideToNumber } from '../../../util/bigint';
@@ -9,7 +9,7 @@ import { getDoesUsePinPad } from '../../../util/biometrics';
 import { explainApiTransferFee, getDieselTokenAmount } from '../../../util/fee/transferFee';
 import { vibrateOnError, vibrateOnSuccess } from '../../../util/haptics';
 import { callActionInNative } from '../../../util/multitab';
-import { shouldShowSeedPhraseScamWarning } from '../../../util/scamDetection';
+import { shouldShowDomainScamWarning, shouldShowSeedPhraseScamWarning } from '../../../util/scamDetection';
 import { IS_DELEGATING_BOTTOM_SHEET } from '../../../util/windowEnvironment';
 import { callApi } from '../../../api';
 import { ApiHardwareBlindSigningNotEnabled, ApiUserRejectsError } from '../../../api/errors';
@@ -19,7 +19,6 @@ import {
   clearIsPinAccepted,
   preserveMaxTransferAmount,
   setIsPinAccepted,
-  updateAccount,
   updateAccountState,
   updateCurrentTransfer,
   updateCurrentTransferByCheckResult,
@@ -163,11 +162,15 @@ addActionHandler('fetchTransferFee', async (global, actions, payload) => {
 
     if (shouldShowSeedPhraseScamWarning(currentAccount, accountTokens, chain)) {
       global = getGlobal();
-      global = updateCurrentTransfer(global, { shouldShowScamWarning: true });
-      // Clear `importedAt` so the warning only shows once
-      global = updateAccount(global, global.currentAccountId!, { importedAt: undefined });
+      global = updateCurrentTransfer(global, { scamWarningType: ScamWarningType.SeedPhrase });
       setGlobal(global);
     }
+  }
+
+  if (shouldShowDomainScamWarning(toAddress)) {
+    global = getGlobal();
+    global = updateCurrentTransfer(global, { scamWarningType: ScamWarningType.DomainLike });
+    setGlobal(global);
   }
 });
 
@@ -194,6 +197,9 @@ addActionHandler('fetchNftFee', async (global, actions, payload) => {
   global = updateCurrentTransfer(global, { isLoading: false });
   if (result) {
     global = updateCurrentTransferByCheckResult(global, result);
+  }
+  if (shouldShowDomainScamWarning(toAddress)) {
+    global = updateCurrentTransfer(global, { scamWarningType: ScamWarningType.DomainLike });
   }
   setGlobal(global);
 
